@@ -1,6 +1,6 @@
 Rebuild Run Log
 Date: 2026-05-02
-Project: /Users/apple/git/python/rebuild_history
+Project: bash-history-rebuilder
 
 Summary
 - Full rebuild completed successfully with SQLite incremental pipeline.

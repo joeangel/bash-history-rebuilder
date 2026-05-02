@@ -1,4 +1,4 @@
-# Rebuild Bash History
+# bash-history-rebuilder
 
 This project rebuilds bash history from many fragmented backup files (for example, files like `.bashrc-2024-09-01T12:10:00+0800`).
 

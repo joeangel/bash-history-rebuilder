@@ -74,5 +74,5 @@ Execution of the recovery script to merge, de-duplicate, and sort historical fra
 
 ---
 Author: Shih-Pu Huang (Angel)
-Project: System Maintenance / Infrastructure Optimization
+Project: bash-history-rebuilder
 Date: 2026-05-01
