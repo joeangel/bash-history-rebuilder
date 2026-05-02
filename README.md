@@ -22,6 +22,8 @@ Useful commands:
 ./run_rebuild.sh stop
 ./run_rebuild.sh reset
 ./run_rebuild.sh testcov
+./run_rebuild.sh log-new cleanup
+cat logs/2026-05-02_full-rebuild.md
 ```
 
 You can override defaults via environment variables (example):
@@ -81,7 +83,14 @@ Then resume with the same command (it continues from `processed_files`).
 wc -l output/bash_history_recovered
 head -n 10 output/bash_history_recovered
 tail -n 10 output/bash_history_recovered
+cat logs/2026-05-02_full-rebuild.md
 ```
+
+## Run Log
+
+- Latest execution and verification summary is stored at `logs/2026-05-02_full-rebuild.md`.
+- Log naming convention is documented in `logs/README.md`.
+- You can create a new log template with `./run_rebuild.sh log-new <run-type>`.
 
 ## Notes
 

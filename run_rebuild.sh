@@ -25,6 +25,7 @@ Usage:
   ./run_rebuild.sh stop    # graceful stop via stop flag
   ./run_rebuild.sh status  # print current JSON status
   ./run_rebuild.sh testcov # run unit tests with coverage report
+  ./run_rebuild.sh log-new <run-type> # create logs/YYYY-MM-DD_<run-type>.md
 EOF
 }
 
@@ -71,6 +72,14 @@ case "$cmd" in
     ;;
   testcov)
     python3 -m pytest --cov=src --cov-report=term-missing -q
+    ;;
+  log-new)
+    run_type="${2:-}"
+    if [[ -z "$run_type" ]]; then
+      echo "Missing <run-type>. Example: ./run_rebuild.sh log-new full-rebuild"
+      exit 1
+    fi
+    python3 -m src.log_utils "$run_type"
     ;;
   *)
     usage
