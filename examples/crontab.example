@@ -1,0 +1,4 @@
+# macOS + bash example
+# Use absolute paths in crontab entries.
+# Runs at minute 10 every hour:
+10 * * * * /Users/YOUR_USER_NAME/scripts/backup-bash-history.sh

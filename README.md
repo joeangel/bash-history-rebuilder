@@ -2,12 +2,37 @@
 
 This project rebuilds bash history from many fragmented backup files (for example, files like `.bashrc-2024-09-01T12:10:00+0800`).
 
+Target environment: macOS with bash shell scripts.
+
 ## Setup
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 -m pip install pytest-cov
 ```
+
+## Source Directory Origin (`~/bash_history/`)
+
+In this project, `~/bash_history/` is the upstream source directory that stores periodic copies of `~/.bash_history`.
+
+Current setup example:
+
+1. `crontab` entry (runs at minute 10 every hour, absolute path required):
+```cron
+10 * * * * /Users/YOUR_USER_NAME/scripts/backup-bash-history.sh
+```
+2. Backup script copies `~/.bash_history` into timestamped fragments like:
+```text
+~/bash_history/.bashrc-2026-05-02T16:10:00+0800
+```
+
+Reference files in this repo:
+- `examples/crontab.example`
+- `examples/backup-bash-history.sh`
+
+This rebuild project then syncs those fragments into `./bash_history/` and processes them.
+
+If your source path is different, replace the `rsync` source path accordingly.
 
 ## Quick Start (recommended)
 
