@@ -25,6 +25,7 @@ Usage:
   ./run_rebuild.sh stop    # graceful stop via stop flag
   ./run_rebuild.sh status  # print current JSON status
   ./run_rebuild.sh testcov # run unit tests with coverage report
+  ./run_rebuild.sh validate # validate source/db/output consistency
   ./run_rebuild.sh log-new <run-type> # create logs/YYYY-MM-DD_<run-type>.md
 EOF
 }
@@ -72,6 +73,13 @@ case "$cmd" in
     ;;
   testcov)
     python3 -m pytest --cov=src --cov-report=term-missing -q
+    ;;
+  validate)
+    python3 -m src.validate_rebuild \
+      --input-dir "$INPUT_DIR" \
+      --glob "$GLOB_PATTERN" \
+      --db-path "$DB_PATH" \
+      --output "$OUTPUT_FILE"
     ;;
   log-new)
     run_type="${2:-}"

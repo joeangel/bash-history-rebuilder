@@ -57,6 +57,7 @@ Execution of the recovery script to merge, de-duplicate, and sort historical fra
 - [x] Observability: Added progress/ETA, CPU usage, adaptive throttling, JSON status file.
 - [x] Operability: Added graceful stop/resume workflow and one-command runner script.
 - [x] Test Coverage: Added unit tests and coverage command (`./run_rebuild.sh testcov`).
+- [x] Data Validation: Added `./run_rebuild.sh validate` for source/DB/output consistency checks.
 - [x] Run Log: Latest full-run summary recorded in `logs/2026-05-02_full-rebuild.md` (naming rules in `logs/README.md`).
 - [x] Log Tooling: Added `./run_rebuild.sh log-new <run-type>` for standardized log creation.
 - [ ] Cleanup: Purge 2800+ redundant files after verification.

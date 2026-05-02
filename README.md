@@ -22,6 +22,7 @@ Useful commands:
 ./run_rebuild.sh stop
 ./run_rebuild.sh reset
 ./run_rebuild.sh testcov
+./run_rebuild.sh validate
 ./run_rebuild.sh log-new cleanup
 cat logs/2026-05-02_full-rebuild.md
 ```
@@ -83,6 +84,7 @@ Then resume with the same command (it continues from `processed_files`).
 wc -l output/bash_history_recovered
 head -n 10 output/bash_history_recovered
 tail -n 10 output/bash_history_recovered
+./run_rebuild.sh validate
 cat logs/2026-05-02_full-rebuild.md
 ```
 
