@@ -1,0 +1,96 @@
+# Rebuild Bash History
+
+This project rebuilds bash history from many fragmented backup files (for example, files like `.bashrc-2024-09-01T12:10:00+0800`).
+
+## Setup
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 -m pip install pytest-cov
+```
+
+## Quick Start (recommended)
+
+```bash
+./run_rebuild.sh start
+```
+
+Useful commands:
+
+```bash
+./run_rebuild.sh status
+./run_rebuild.sh stop
+./run_rebuild.sh reset
+./run_rebuild.sh testcov
+```
+
+You can override defaults via environment variables (example):
+
+```bash
+TARGET_CPU=60 THROTTLE_MS=8 ./run_rebuild.sh start
+```
+
+Available environment variables for `run_rebuild.sh`:
+- `INPUT_DIR` (default: `bash_history`)
+- `GLOB_PATTERN` (default: `.bashrc-*`)
+- `DB_PATH` (default: `output/rebuild_history.sqlite3`)
+- `OUTPUT_FILE` (default: `output/bash_history_recovered`)
+- `STATUS_FILE` (default: `output/rebuild_status.json`)
+- `STOP_FLAG_FILE` (default: `output/STOP_REBUILD`)
+- `BATCH_SIZE` (default: `5000`)
+- `REPORT_EVERY` (default: `2`)
+- `STATUS_EVERY` (default: `2`)
+- `THROTTLE_MS` (default: `5`)
+- `TARGET_CPU` (default: `65`)
+
+## Direct Run (SQLite incremental mode)
+
+```bash
+python3 main.py \
+  --input-dir bash_history \
+  --glob '.bashrc-*' \
+  --db-path output/rebuild_history.sqlite3 \
+  --batch-size 5000 \
+  --report-every 2 \
+  --auto-throttle \
+  --target-cpu 65 \
+  --throttle-ms 5 \
+  --stop-flag-file output/STOP_REBUILD \
+  --status-file output/rebuild_status.json \
+  --status-every 2 \
+  --output output/bash_history_recovered
+```
+
+If you want to rebuild from scratch:
+
+```bash
+python3 main.py --reset-db
+```
+
+Force stop gracefully while it is running:
+
+```bash
+touch output/STOP_REBUILD
+```
+
+Then resume with the same command (it continues from `processed_files`).
+
+## Verify
+
+```bash
+wc -l output/bash_history_recovered
+head -n 10 output/bash_history_recovered
+tail -n 10 output/bash_history_recovered
+```
+
+## Notes
+
+- Dedupe key is `(timestamp, command)` via SQLite `PRIMARY KEY`.
+- Parser supports multi-line commands: from one `#timestamp` until the next `#timestamp`.
+- Resume is supported by `processed_files` metadata (path + size + mtime).
+- Supports graceful stop via `SIGINT`/`SIGTERM` or stop flag file.
+- Progress includes CPU usage and adaptive throttle values.
+- Writes JSON monitoring status to `output/rebuild_status.json`.
+- Output format follows bash history conventions:
+  - `#<unix_timestamp>`
+  - `<command>`
