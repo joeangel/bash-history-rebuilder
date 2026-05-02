@@ -23,9 +23,11 @@ Usage:
   ./run_rebuild.sh start   # start or resume rebuild
   ./run_rebuild.sh reset   # rebuild from scratch
   ./run_rebuild.sh stop    # graceful stop via stop flag
+  ./run_rebuild.sh cleanup-source # delete files under ./bash_history only
   ./run_rebuild.sh status  # print current JSON status
   ./run_rebuild.sh testcov # run unit tests with coverage report
   ./run_rebuild.sh validate # validate source/db/output consistency
+  ./run_rebuild.sh snapshot <label> # backup db/output/status/logs into snapshots/
   ./run_rebuild.sh log-new <run-type> # create logs/YYYY-MM-DD_<run-type>.md
 EOF
 }
@@ -63,6 +65,11 @@ case "$cmd" in
     touch "$STOP_FLAG_FILE"
     echo "Stop requested: $STOP_FLAG_FILE"
     ;;
+  cleanup-source)
+    find "$INPUT_DIR" -mindepth 1 -delete
+    echo "Source fragments deleted under: $INPUT_DIR"
+    echo "Database kept unchanged: $DB_PATH"
+    ;;
   status)
     if [[ -f "$STATUS_FILE" ]]; then
       cat "$STATUS_FILE"
@@ -80,6 +87,19 @@ case "$cmd" in
       --glob "$GLOB_PATTERN" \
       --db-path "$DB_PATH" \
       --output "$OUTPUT_FILE"
+    ;;
+  snapshot)
+    label="${2:-}"
+    if [[ -z "$label" ]]; then
+      echo "Missing <label>. Example: ./run_rebuild.sh snapshot post-run"
+      exit 1
+    fi
+    python3 -m src.snapshot_utils "$label" \
+      --db-path "$DB_PATH" \
+      --output-file "$OUTPUT_FILE" \
+      --status-file "$STATUS_FILE" \
+      --logs-dir "logs" \
+      --snapshots-dir "snapshots"
     ;;
   log-new)
     run_type="${2:-}"

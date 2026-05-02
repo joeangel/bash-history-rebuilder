@@ -15,14 +15,62 @@ python3 -m pip install pytest-cov
 ./run_rebuild.sh start
 ```
 
+## Recommended Workflow
+
+### First Run (initialize DB and first output)
+
+1. Put source fragments into `bash_history/` (example):
+```bash
+rsync -av --ignore-existing /Users/apple/bash_history/ ./bash_history/
+```
+2. Run incremental rebuild (creates DB if not exists):
+```bash
+./run_rebuild.sh start
+```
+3. Validate and snapshot:
+```bash
+./run_rebuild.sh validate
+./run_rebuild.sh snapshot first-run
+```
+4. Optional: reclaim source space (DB/output kept):
+```bash
+./run_rebuild.sh cleanup-source
+```
+
+### Second Run and Later (incremental only)
+
+1. Sync only new fragments:
+```bash
+rsync -av --ignore-existing /Users/apple/bash_history/ ./bash_history/
+```
+2. Continue rebuild without resetting DB:
+```bash
+./run_rebuild.sh start
+```
+3. Validate and snapshot:
+```bash
+./run_rebuild.sh validate
+./run_rebuild.sh snapshot post-run
+```
+4. Optional: clean source fragments:
+```bash
+./run_rebuild.sh cleanup-source
+```
+
+### When to use reset
+
+Use `./run_rebuild.sh reset` only when you intentionally want a full rebuild from scratch and accept DB reset.
+
 Useful commands:
 
 ```bash
 ./run_rebuild.sh status
 ./run_rebuild.sh stop
 ./run_rebuild.sh reset
+./run_rebuild.sh cleanup-source
 ./run_rebuild.sh testcov
 ./run_rebuild.sh validate
+./run_rebuild.sh snapshot post-run
 ./run_rebuild.sh log-new cleanup
 cat logs/2026-05-02_full-rebuild.md
 ```
@@ -69,6 +117,11 @@ If you want to rebuild from scratch:
 ```bash
 python3 main.py --reset-db
 ```
+
+Important:
+- `./run_rebuild.sh reset` clears and rebuilds the SQLite DB.
+- `./run_rebuild.sh cleanup-source` deletes only files under `bash_history/` and keeps DB/output files.
+- `./run_rebuild.sh snapshot <label>` creates a timestamped backup under `snapshots/`.
 
 Force stop gracefully while it is running:
 

@@ -60,7 +60,9 @@ Execution of the recovery script to merge, de-duplicate, and sort historical fra
 - [x] Data Validation: Added `./run_rebuild.sh validate` for source/DB/output consistency checks.
 - [x] Run Log: Latest full-run summary recorded in `logs/2026-05-02_full-rebuild.md` (naming rules in `logs/README.md`).
 - [x] Log Tooling: Added `./run_rebuild.sh log-new <run-type>` for standardized log creation.
-- [ ] Cleanup: Purge 2800+ redundant files after verification.
+- [x] Cleanup: Purged 2800+ redundant files after verification.
+  - Cleanup behavior: `cleanup-source` removes only `bash_history/` fragments and does not clear SQLite DB.
+- [x] Snapshot Tooling: Added `./run_rebuild.sh snapshot <label>` to back up DB/output/status/logs per run.
 
 ---
 
