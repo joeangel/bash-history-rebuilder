@@ -32,7 +32,11 @@ rsync -av --ignore-existing ~/bash_history/ ./bash_history/
 ./run_rebuild.sh validate
 ./run_rebuild.sh snapshot first-run
 ```
-4. Optional: reclaim source space (DB/output kept):
+4. Optional: sync snapshots to external backup location:
+```bash
+rsync -av ./snapshots/ ../rebuild_history-snapshots/
+```
+5. Optional: reclaim source space (DB/output kept):
 ```bash
 ./run_rebuild.sh cleanup-source
 ```
@@ -52,7 +56,11 @@ rsync -av --ignore-existing ~/bash_history/ ./bash_history/
 ./run_rebuild.sh validate
 ./run_rebuild.sh snapshot post-run
 ```
-4. Optional: clean source fragments:
+4. Optional: sync snapshots to external backup location:
+```bash
+rsync -av ./snapshots/ ../rebuild_history-snapshots/
+```
+5. Optional: clean source fragments:
 ```bash
 ./run_rebuild.sh cleanup-source
 ```
