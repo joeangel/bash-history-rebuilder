@@ -21,7 +21,7 @@ python3 -m pip install pytest-cov
 
 1. Put source fragments into `bash_history/` (example):
 ```bash
-rsync -av --ignore-existing /Users/apple/bash_history/ ./bash_history/
+rsync -av --ignore-existing ~/bash_history/ ./bash_history/
 ```
 2. Run incremental rebuild (creates DB if not exists):
 ```bash
@@ -41,7 +41,7 @@ rsync -av --ignore-existing /Users/apple/bash_history/ ./bash_history/
 
 1. Sync only new fragments:
 ```bash
-rsync -av --ignore-existing /Users/apple/bash_history/ ./bash_history/
+rsync -av --ignore-existing ~/bash_history/ ./bash_history/
 ```
 2. Continue rebuild without resetting DB:
 ```bash
