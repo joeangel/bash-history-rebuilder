@@ -4,6 +4,17 @@ This project rebuilds bash history from many fragmented backup files (for exampl
 
 Target environment: macOS with bash shell scripts.
 
+## Table of Contents
+
+- [Setup](#setup)
+- [Source Directory Origin (`~/bash_history/`)](#source-directory-origin-bash_history)
+- [Quick Start (recommended)](#quick-start-recommended)
+- [Recommended Workflow](#recommended-workflow)
+- [Direct Run (SQLite incremental mode)](#direct-run-sqlite-incremental-mode)
+- [Verify](#verify)
+- [Run Log](#run-log)
+- [Notes](#notes)
+
 ## Setup
 
 ```bash
