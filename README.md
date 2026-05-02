@@ -15,6 +15,22 @@ python3 -m pip install pytest-cov
 
 In this project, `~/bash_history/` is the upstream source directory that stores periodic copies of `~/.bash_history`.
 
+Recommended `.bashrc` history settings:
+
+```bash
+export HISTTIMEFORMAT='<%F %T %z> : '
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTCONTROL=ignoredups:ignorespace
+shopt -s histappend
+PROMPT_COMMAND="history -a"
+```
+
+Notes:
+- `HISTTIMEFORMAT` adds a timestamp format that helps chronological recovery.
+- `HISTCONTROL=ignoredups:ignorespace` avoids storing immediate duplicates and commands prefixed with a space.
+- `histappend` and `history -a` reduce overwrite risk across multiple terminal sessions.
+
 Current setup example:
 
 1. `crontab` entry (runs at minute 10 every hour, absolute path required):
